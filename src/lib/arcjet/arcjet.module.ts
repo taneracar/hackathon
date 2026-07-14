@@ -18,7 +18,7 @@ const isLive = process.env.ARCJET_MODE === 'LIVE';
         shield({ mode: isLive ? 'LIVE' : 'DRY_RUN' }),
         detectBot({
           mode: isLive ? 'LIVE' : 'DRY_RUN',
-          allow: ['CATEGORY:SEARCH_ENGINE'],
+          allow: ['CATEGORY:SEARCH_ENGINE', 'POSTMAN'],
         }),
         tokenBucket({
           mode: isLive ? 'LIVE' : 'DRY_RUN',
