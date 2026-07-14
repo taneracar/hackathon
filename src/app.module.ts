@@ -4,9 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArcjetModule } from './lib/arcjet/arcjet.module';
 import { ArcjetGuard } from './common/guards/arcjet.guard';
+import { PrismaModule } from './lib/database/prisma.module';
 
 @Module({
-  imports: [ArcjetModule],
+  imports: [ArcjetModule, PrismaModule],
   controllers: [AppController],
   providers: [
     AppService,
