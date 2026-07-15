@@ -6,9 +6,10 @@ import { ArcjetModule } from './lib/arcjet/arcjet.module';
 import { ArcjetGuard } from './common/guards/arcjet.guard';
 import { PrismaModule } from './lib/database/prisma.module';
 import { AuthModule } from './lib/auth/auth.module';
+import { UserModule } from './module/user/user.module';
 
 @Module({
-  imports: [ArcjetModule, PrismaModule, AuthModule],
+  imports: [ArcjetModule, PrismaModule, AuthModule, UserModule],
   controllers: [AppController],
   providers: [
     AppService,
