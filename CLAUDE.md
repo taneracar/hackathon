@@ -1,6 +1,6 @@
 # Hakcathon Backend
 
-NestJS 11 project. Express adapter.
+NestJS 11 project. Express adapter. Hackathon
 
 ## Role
 
