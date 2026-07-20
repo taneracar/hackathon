@@ -26,6 +26,9 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  authoredHackatons      Hackaton[]            @relation("HackatonAuthor")
+  hackatonParticipations HackatonParticipant[]
+
   @@unique([email])
   @@map("user")
 }
@@ -81,4 +84,37 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Hackaton {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  authorId String
+  author   User   @relation("HackatonAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  participants HackatonParticipant[]
+
+  @@index([authorId])
+  @@map("hackaton")
+}
+
+model HackatonParticipant {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  hackatonId String
+  hackaton   Hackaton @relation(fields: [hackatonId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([hackatonId, userId])
+  @@map("hackaton_participant")
 }
