@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../lib/database/prisma.service';
 import { CreateHackatonDto } from './dto/create-hackaton.dto';
 import { UpdateHackatonDto } from './dto/update-hackaton.dto';
@@ -48,5 +53,21 @@ export class HackatonService {
     }
 
     return this.prisma.hackaton.delete({ where: { id } });
+  }
+
+  async join(hackatonId: string, userId: string) {
+    await this.findOne(hackatonId);
+
+    const existingParticipant = await this.prisma.hackatonParticipant.findUnique({
+      where: { hackatonId_userId: { hackatonId, userId } },
+    });
+
+    if (existingParticipant) {
+      throw new ConflictException('You have already joined this hackaton');
+    }
+
+    return this.prisma.hackatonParticipant.create({
+      data: { hackatonId, userId },
+    });
   }
 }

@@ -38,4 +38,9 @@ export class HackatonController {
   remove(@Param('id') id: string, @Session() session: UserSession) {
     return this.hackatonService.remove(id, session.user.id);
   }
+
+  @Post(':id/join')
+  join(@Param('id') id: string, @Session() session: UserSession) {
+    return this.hackatonService.join(id, session.user.id);
+  }
 }
