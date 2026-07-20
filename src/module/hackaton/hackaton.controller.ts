@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard, Session } from '@thallesp/nestjs-better-auth';
+import type { UserSession } from '@thallesp/nestjs-better-auth';
 import { HackatonService } from './hackaton.service';
 import { CreateHackatonDto } from './dto/create-hackaton.dto';
 import { UpdateHackatonDto } from './dto/update-hackaton.dto';
 
 @Controller('hackaton')
+@UseGuards(AuthGuard)
 export class HackatonController {
   constructor(private readonly hackatonService: HackatonService) {}
 
   @Post()
-  create(@Body() createHackatonDto: CreateHackatonDto) {
-    return this.hackatonService.create(createHackatonDto);
+  create(@Body() createHackatonDto: CreateHackatonDto, @Session() session: UserSession) {
+    return this.hackatonService.create(createHackatonDto, session.user.id);
   }
 
   @Get()
@@ -19,16 +22,20 @@ export class HackatonController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.hackatonService.findOne(+id);
+    return this.hackatonService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHackatonDto: UpdateHackatonDto) {
-    return this.hackatonService.update(+id, updateHackatonDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateHackatonDto: UpdateHackatonDto,
+    @Session() session: UserSession,
+  ) {
+    return this.hackatonService.update(id, updateHackatonDto, session.user.id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.hackatonService.remove(+id);
+  remove(@Param('id') id: string, @Session() session: UserSession) {
+    return this.hackatonService.remove(id, session.user.id);
   }
 }

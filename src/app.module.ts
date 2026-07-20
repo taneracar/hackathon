@@ -8,7 +8,7 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { PrismaModule } from './lib/database/prisma.module';
 import { AuthModule } from './lib/auth/auth.module';
 import { UserModule } from './module/user/user.module';
-import { HackatonModule } from './moduke/hackaton/hackaton.module';
+import { HackatonModule } from './module/hackaton/hackaton.module';
 
 @Module({
   imports: [ArcjetModule, PrismaModule, AuthModule, UserModule, HackatonModule],
