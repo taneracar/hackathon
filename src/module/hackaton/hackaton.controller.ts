@@ -43,4 +43,14 @@ export class HackatonController {
   join(@Param('id') id: string, @Session() session: UserSession) {
     return this.hackatonService.join(id, session.user.id);
   }
+
+  @Delete(':id/join')
+  leave(@Param('id') id: string, @Session() session: UserSession) {
+    return this.hackatonService.leave(id, session.user.id);
+  }
+
+  @Get(':id/participants')
+  findParticipants(@Param('id') id: string) {
+    return this.hackatonService.findParticipants(id);
+  }
 }
