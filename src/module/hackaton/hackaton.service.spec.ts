@@ -19,6 +19,12 @@ describe('HackatonService', () => {
               update: jest.fn(),
               delete: jest.fn(),
             },
+            hackatonParticipant: {
+              create: jest.fn(),
+              findMany: jest.fn(),
+              findUnique: jest.fn(),
+              delete: jest.fn(),
+            },
           },
         },
       ],

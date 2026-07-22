@@ -70,4 +70,29 @@ export class HackatonService {
       data: { hackatonId, userId },
     });
   }
+
+  async leave(hackatonId: string, userId: string) {
+    await this.findOne(hackatonId);
+
+    const existingParticipant = await this.prisma.hackatonParticipant.findUnique({
+      where: { hackatonId_userId: { hackatonId, userId } },
+    });
+
+    if (!existingParticipant) {
+      throw new NotFoundException('You have not joined this hackaton');
+    }
+
+    return this.prisma.hackatonParticipant.delete({
+      where: { hackatonId_userId: { hackatonId, userId } },
+    });
+  }
+
+  async findParticipants(hackatonId: string) {
+    await this.findOne(hackatonId);
+
+    return this.prisma.hackatonParticipant.findMany({
+      where: { hackatonId },
+      include: { user: true },
+    });
+  }
 }
